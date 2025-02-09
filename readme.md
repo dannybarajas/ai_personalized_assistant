@@ -26,7 +26,7 @@ To set up the project locally, follow these steps:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/dannybarajas/ai_poersonalized_assistant.git
+   git clone https://github.com/dannybarajas/ai_personalized_assistant.git
    cd ai_assistant
    ```
 
