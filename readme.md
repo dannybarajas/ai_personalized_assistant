@@ -10,6 +10,8 @@ AI Assistant is a Django-based web application designed to assist users with var
 - [Installation](#installation)
 - [Usage](#usage)
 - [Configuration](#configuration)
+- [Environment Variables](#environment-variables)
+- [Managing Migrations](#managing-migrations)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -19,6 +21,7 @@ AI Assistant is a Django-based web application designed to assist users with var
 - Admin panel for managing users and content
 - Static file handling
 - SQLite database for development
+- PostgreSQL database for production
 
 ## Installation
 
@@ -42,7 +45,12 @@ To set up the project locally, follow these steps:
    ```
 
 4. **Set up environment variables:**
-   Copy the `.env.example` to `.env` and fill in the necessary values.
+   Create a `.env` file in the root directory of the project and add the following variables:
+   ```dotenv
+   POSTGRES_DB=db_assistant
+   POSTGRES_USER=user_assistant
+   POSTGRES_PASSWORD=New2025*+
+   ```
 
 5. **Run migrations:**
    ```bash
@@ -54,20 +62,45 @@ To set up the project locally, follow these steps:
 To start the development server, run:
 
 ```bash
-python manage.py runserver
+docker-compose up --build
 ```
 
 You can access the application at `http://127.0.0.1:8000/`.
 
 ## Configuration
 
-- **Docker:** You can also run the application using Docker. Build the Docker image and run the container:
-  ```bash
-  docker build -t ai_assistant .
-  docker run -p 8000:8000 ai_assistant
-  ```
+- **Docker:** You can run the application using Docker. The `docker-compose.yml` file is configured to set up both the Django application and a PostgreSQL database.
 
 - **Static Files:** If you need to collect static files, uncomment the relevant line in the `Dockerfile`.
+
+## Environment Variables
+
+The application uses the following environment variables for PostgreSQL configuration:
+
+- `POSTGRES_DB`: The name of the database to create.
+- `POSTGRES_USER`: The username for the PostgreSQL superuser.
+- `POSTGRES_PASSWORD`: The password for the PostgreSQL superuser.
+
+Make sure to set these variables in the `.env` file as shown in the Installation section.
+
+## Managing Migrations
+
+After starting the application, you can manage your database migrations using the following commands:
+
+1. **Create migrations:**
+   ```bash
+   docker-compose exec web python manage.py makemigrations
+   ```
+
+2. **Apply migrations:**
+   ```bash
+   docker-compose exec web python manage.py migrate
+   ```
+
+3. **Create a superuser:**
+   ```bash
+   docker-compose exec web python manage.py createsuperuser
+   ```
 
 ## Contributing
 
