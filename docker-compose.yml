@@ -13,6 +13,19 @@ services:
     env_file:
       - .env  # Load environment variables from .env file
 
+  frontend:
+    build:
+      context: ./frontend_ai_assistant
+      dockerfile: Dockerfile
+    volumes:
+    - ./frontend_ai_assistant:/app
+      /app/node_modules   # prevent overwriting node modules if needed
+    ports: 
+      - "5173:5173"
+    depends_on:
+      - web
+
+
   db:
     image: postgres:latest
     environment:
