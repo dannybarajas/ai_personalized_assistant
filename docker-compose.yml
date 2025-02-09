@@ -1,0 +1,26 @@
+services:
+  web:
+    build:
+      context: ./ai_assistant  # Specify the context directory where the Dockerfile is located
+      dockerfile: Dockerfile    # Specify the Dockerfile name 
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./ai_assistant:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env  # Load environment variables from .env file
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data: {} 
